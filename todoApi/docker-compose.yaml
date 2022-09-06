@@ -10,8 +10,6 @@ services:
       - 5000:80
     depends_on:
       - db
-    networks:
-      - csharp-network  
   db:
     build: .docker/postgres
     container_name: postgresdb
@@ -23,9 +21,7 @@ services:
       - .dbdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=postgres
-    networks:
-      - csharp-network        
+      - POSTGRES_DB=postgres 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -37,9 +33,3 @@ services:
       - '8000:80'
     depends_on:
       - db      
-    networks:
-      - csharp-network        
-networks:
-  csharp-network:
-    driver: bridge
-    

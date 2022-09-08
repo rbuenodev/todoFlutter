@@ -13,7 +13,7 @@ namespace todoApi.src.Services
         }
         public Models.Todo Create(CreateTodoDto todo)
         {
-            var newTodo = new Models.Todo(todo.Description, todo.CreatedAt, todo.Status, todo.CompletionDate);
+            var newTodo = new Models.Todo(todo.Description, Convert.ToDateTime(todo.CreatedAt).ToUniversalTime(), todo.Status, Convert.ToDateTime(todo.CompletionDate).ToUniversalTime());
             newTodo.Validate();
             return _todoRepository.Create(newTodo);
         }
@@ -40,9 +40,9 @@ namespace todoApi.src.Services
                 return null;
 
             updatedTodo.Description = todo.Description;
-            updatedTodo.CreatedAt = todo.CreatedAt;
+            updatedTodo.CreatedAt = Convert.ToDateTime(todo.CreatedAt).ToUniversalTime();
             updatedTodo.Status = todo.Status;
-            updatedTodo.CompletionDate = todo.CompletionDate;
+            updatedTodo.CompletionDate = Convert.ToDateTime(todo.CompletionDate).ToUniversalTime();
             updatedTodo.Validate();
 
             return _todoRepository.Update(updatedTodo);

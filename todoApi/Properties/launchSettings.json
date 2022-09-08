@@ -14,9 +14,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_CONNECTION": "Server=localhost;Userid=postgres;Password=docker;DataBase=postgres;",
+        "DEV_DATABASE_CONNECTION": "Server=localhost;Userid=postgres;Password=docker;DataBase=postgres;"
       },
-      "applicationUrl": "https://localhost:7080;http://localhost:5080",
+      "applicationUrl": "http://192.168.1.66:5080",
       "dotnetRunMessages": true
     },
     "IIS Express": {
@@ -32,7 +34,12 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_CONNECTION": "Server=localhost;Userid=postgres;Password=docker;DataBase=postgres;",
+        "DEV_DATABASE_CONNECTION": "Server=localhost;Userid=postgres;Password=docker;DataBase=postgres;"
+      }
     }
   }
 }

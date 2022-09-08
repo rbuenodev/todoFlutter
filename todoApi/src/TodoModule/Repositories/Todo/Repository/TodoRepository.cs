@@ -16,10 +16,10 @@ namespace todoApi.src.Repositories.Todo.Repository
             try
             {
                 _todoContext.Add(newTodo);
+                _todoContext.SaveChanges();
             }
             catch (Exception)
             {
-
                 throw;
             }
             todo.Id = newTodo.Id;
@@ -34,6 +34,7 @@ namespace todoApi.src.Repositories.Todo.Repository
             try
             {
                 _todoContext.Remove(todo);
+                _todoContext.SaveChanges();
             }
             catch (Exception)
             {

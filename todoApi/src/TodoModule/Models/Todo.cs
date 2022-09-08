@@ -25,7 +25,7 @@
                 throw new Exception("Creation date can't be bigger than completion date");
             }
 
-            if (CompletionDate > CreatedAt)
+            if (CompletionDate < CreatedAt)
             {
                 throw new Exception("Completion date can't be bigger than creation date");
             }

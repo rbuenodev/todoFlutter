@@ -1,4 +1,4 @@
-﻿namespace todoApi.src.db
+﻿namespace todoApi.src.Migration
 {
     public static class MigrateDatabase
     {
@@ -10,7 +10,7 @@
                 var evolveConnection = new Npgsql.NpgsqlConnection(connection);
                 var evolve = new Evolve.Evolve(evolveConnection, msg => Console.WriteLine(msg))
                 {
-                    Locations = new List<string> { "db/migrations", "db/dataset" },
+                    Locations = new List<string> { "db/migrations", "/db/dataset" },
                     IsEraseDisabled = true,
                 };
                 evolve.Migrate();

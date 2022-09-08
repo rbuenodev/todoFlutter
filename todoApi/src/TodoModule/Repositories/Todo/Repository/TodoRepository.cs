@@ -38,7 +38,6 @@ namespace todoApi.src.Repositories.Todo.Repository
             }
             catch (Exception)
             {
-
                 throw;
             }
             return true;

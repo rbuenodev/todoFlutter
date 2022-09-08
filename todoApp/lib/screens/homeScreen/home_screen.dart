@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/screens/homeScreen/widgets/configuration_widget.dart';
 import 'package:todoapp/screens/homeScreen/widgets/search_widget.dart';
+import 'package:todoapp/screens/homeScreen/widgets/status_widget.dart';
 import 'package:todoapp/screens/todoScreen/todo_screen.dart';
 import '../../models/todo.dart';
 import '../../notifier/home_notifier.dart';
@@ -59,13 +60,31 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: todoList.length,
               itemBuilder: ((context, index) {
                 return ListTile(
-                  title: Text(todoList[index].description),
+                  title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StatusWidget(
+                          description: todoList[index].statusDescription,
+                          status: todoList[index].status,
+                        ),
+                        Text(todoList[index].description),
+                      ]),
                   subtitle: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(todoList[index].statusDescription),
-                        Text(todoList[index].formattedCompletionDate),
-                        Text(todoList[index].formattedCreatedAt),
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: Text(
+                              "Data de início: ${todoList[index].formattedCreatedAt}"),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: Text(
+                              "Data de término: ${todoList[index].formattedCompletionDate}"),
+                        ),
                       ]),
                   trailing: PopupMenuButton<String>(
                     itemBuilder: (context) => <PopupMenuEntry<String>>[
@@ -108,7 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showTodoPage(BuildContext context, Todo? todo) async {
-    await Navigator.push(context,
+    var result = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => TodoScreen(todo: todo)));
+    if (result != null) {
+      notifier.addTodoOnList(result);
+    }
   }
 }

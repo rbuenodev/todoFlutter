@@ -27,7 +27,7 @@ class TodoNotifier extends ChangeNotifier {
     try {
       todo.validate();
     } catch (e) {
-      return null;
+      rethrow;
     }
 
     if (todo.id != 0) {

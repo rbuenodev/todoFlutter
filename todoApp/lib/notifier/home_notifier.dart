@@ -28,31 +28,21 @@ class HomeNotifier extends ChangeNotifier {
 
   Future findAll() async {
     var list = await todoRepository.findAll();
+    todoListController.value.addAll([]);
     todoListController.value.addAll(list);
     todoListController.notifyListeners();
   }
 
-  Future saveTodo(Todo todo) async {
-    var newTodo = await todoRepository.create(todo);
-    if (newTodo != null) {
+  Future addTodoOnList(Todo newTodo) async {
+    List<Todo> list = [];
+    list.addAll(todoListController.value);
+    list.retainWhere((todo) => (todo.id == newTodo.id));
+    if (list.isEmpty) {
       todoListController.value.add(newTodo);
-      todoListController.notifyListeners();
+    } else {
+      todoListController.value.remove(list.first);
+      todoListController.value.add(newTodo);
     }
-  }
-
-  Future updateTodo(Todo todo) async {
-    var uptadedTodo = await todoRepository.update(todo);
-    if (uptadedTodo != null) {
-      todoListController.value.add(uptadedTodo);
-      todoListController.notifyListeners();
-    }
-  }
-
-  Future deleteTodo(Todo todo) async {
-    var result = await todoRepository.delete(todo.id!);
-    if (result) {
-      todoListController.value.remove(todo);
-      todoListController.notifyListeners();
-    }
+    todoListController.notifyListeners();
   }
 }

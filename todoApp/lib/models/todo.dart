@@ -115,11 +115,11 @@ class Todo {
     }
 
     if (finalDate!.compareTo(initialDate!) < 0) {
-      throw Exception("Data de inicio não pode ser maior que data de término");
+      throw Exception("Data de término não pode ser menor que data de início");
     }
 
-    if (initialDate.compareTo(finalDate) < 0) {
-      throw Exception("Data de término não pode ser maior que data de término");
+    if (initialDate.compareTo(finalDate) > 0) {
+      throw Exception("Data de término não pode ser menor que data de início");
     }
   }
 

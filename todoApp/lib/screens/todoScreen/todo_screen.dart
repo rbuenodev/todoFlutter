@@ -154,15 +154,14 @@ class _TodoScreenState extends State<TodoScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: TextFormField(
                   validator: (value) {
-                    if (value == null) {
+                    if ((value == null) || (value.isEmpty)) {
                       return "Campo obrigatório";
                     }
-                    if (value.isNotEmpty) {
-                      if (!dateUtils.validateDateTime(value)) {
-                        return "Informar uma data válida";
-                      }
-                      return null;
+
+                    if (!dateUtils.validateDateTime(value)) {
+                      return "Informar uma data válida";
                     }
+                    return null;
                   },
                   controller: createdAtController,
                   keyboardType: TextInputType.datetime,
@@ -202,15 +201,14 @@ class _TodoScreenState extends State<TodoScreen> {
                 child: TextFormField(
                   controller: completionDateController,
                   validator: ((value) {
-                    if (value == null) {
+                    if ((value == null) || (value.isEmpty)) {
                       return "Campo obrigatório";
                     }
-                    if (value.isNotEmpty) {
-                      if (!dateUtils.validateDateTime(value)) {
-                        return "Informar uma data válida";
-                      }
-                      return null;
+
+                    if (!dateUtils.validateDateTime(value)) {
+                      return "Informar uma data válida";
                     }
+                    return null;
                   }),
                   keyboardType: TextInputType.datetime,
                   style: const TextStyle(
@@ -287,17 +285,19 @@ class _TodoScreenState extends State<TodoScreen> {
             completionDate: DateTimeUtils.convertStringToDateJson(
                 completionDateController.text),
             status: statusSelected);
-        var result = await notifier.saveTodo(todo);
-        if (result == null) {
-          _showDialod("Falha ao gravar, verifique as informaões");
+        try {
+          var result = await notifier.saveTodo(todo);
+          if (result != null) {
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context, result);
+          } else {
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+          }
+        } catch (e) {
+          _showDialod(
+              "Falha ao gravar, verifique as informaões:${e.toString()}");
           return;
-        }
-        if (widget.todo != null) {
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context, result);
-        } else {
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context);
         }
       }
     }
